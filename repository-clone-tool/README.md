@@ -1,6 +1,6 @@
 # repository-clone-tool
 
-Clones all repositories from the list of remote repositories (see `core/config.py`).
+Clones all remote repositories from the list into local machine.
 
 To run it locally, run
 ```shell

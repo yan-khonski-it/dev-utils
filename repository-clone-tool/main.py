@@ -3,7 +3,6 @@ from core.directory_with_repositories import DirectoryWithRepositories
 
 # Set these directories with repositories,
 # so for each directory the script will clone all repositories in it
-
 baseDirectory = "C:\\Dev\\workspaces\\test-directory"
 file_path_Separator = "\\"
 
