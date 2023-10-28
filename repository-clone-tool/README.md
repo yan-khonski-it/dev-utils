@@ -1,6 +1,6 @@
 # repository-clone-tool
 
-Clones all remote repositories from the list into local machine.
+Clones all remote repositories from the list into the local machine.
 
 To run it locally, run
 ```shell

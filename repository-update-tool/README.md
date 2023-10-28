@@ -1,6 +1,6 @@
-# Repository update tool
+# repository-update-tool
 
-Updates all repositories on local machine
+Updates all repositories on local machine.
 
 To run it locally, run
 ```shell

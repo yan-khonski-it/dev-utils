@@ -12,18 +12,11 @@ git clone https://github.com/yan-khonski-it/dev-utils.git
 ## repository clone tool
 https://github.com/yan-khonski-it/dev-utils/tree/master/repository-clone-tool
 
-It clones all repositories from the list of remote repositories.
-
-How can it help you? For example, you want to perform code search, finding the code patterns in multiple repositories.
-When you have all the repositories cloned locally, you can build an index, and then perform searches.
-
-
 ## repository update tool
-
 https://github.com/yan-khonski-it/dev-utils/tree/master/repository-update-tool
 
-Given a list of repositories on local machine, this tool will update them (for each repository, it will call `git pull`).
-Feel free to update it, for example, for each repository, get list of local branches. for each branch, checkout it and call `git pull`.
+## pom xml dependency tool
+https://github.com/yan-khonski-it/dev-utils/tree/master/pom-xml-dependency-tool
 
 
 ## Installation

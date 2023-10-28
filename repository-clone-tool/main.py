@@ -1,5 +1,7 @@
 import subprocess
+import time
 from core.directory_with_repositories import DirectoryWithRepositories
+
 
 # Set these directories with repositories,
 # so for each directory the script will clone all repositories in it
@@ -54,8 +56,14 @@ def clone_repositories(directory_with_repositories):
 
 def main():
   print("Cloning repositories into base directory: [" + baseDirectory + "] .")
+  start = time.time()
+
   for directory in directories_to_clone_repositories:
     clone_repositories(directory)
+
+  end = time.time()
+  total_time = end - start
+  print("Cloning repositories took: [" + str(total_time) + "] seconds.")
 
 
 if __name__ == "__main__":
