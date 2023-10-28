@@ -1,7 +1,7 @@
 import subprocess
 import os
-from system_parameters import SystemParameters
-from utils import convert_list_to_string
+from core.system_parameters import SystemParameters
+from core.utils import convert_list_to_string
 
 # Define major parameters system dependent
 main_directory = "C:\\Dev\\workspaces\\utils"

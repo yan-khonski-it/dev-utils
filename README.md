@@ -12,7 +12,7 @@ git clone https://github.com/yan-khonski-it/dev-utils.git
 ## repository clone tool
 https://github.com/yan-khonski-it/dev-utils/tree/master/repository-clone-tool
 
-It clones all repositories from the list of remote repositories (see `core/config.py`).
+It clones all repositories from the list of remote repositories.
 
 How can it help you? For example, you want to perform code search, finding the code patterns in multiple repositories.
 When you have all the repositories cloned locally, you can build an index, and then perform searches.
