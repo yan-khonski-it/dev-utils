@@ -6,10 +6,10 @@ from core.system_parameters import SystemParameters
 from core.utils import convert_list_to_string
 
 # Set it based on your system
-file_path_separator = "\\"
+file_path_separator = "/"
 
 # Define major parameters system dependent
-main_directory = "C:\\Dev\\workspaces\\tools"
+main_directory = "C:/Dev/test-folder"
 system_parameters = SystemParameters(main_directory, file_path_separator)
 
 

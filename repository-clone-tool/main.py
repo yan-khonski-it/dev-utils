@@ -3,8 +3,8 @@ import time
 import json
 
 
-base_directory = "C:\\Dev\\workspaces\\tools"
-file_path_separator = "\\"
+base_directory = "C:/Dev/test-folder"
+file_path_separator = "/"
 
 
 def parse_input(filename: str) -> list:
