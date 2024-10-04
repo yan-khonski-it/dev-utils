@@ -1,4 +1,4 @@
-from .artifact import Artifact
+from artifact import Artifact
 from xml.dom import minidom
 
 
@@ -27,18 +27,23 @@ class PomXmlReader:
     for dependency in dependencies:
       group_id = self.retrieve_text_value(dependency, "groupId")
       artifact_id = self.retrieve_text_value(dependency, "artifactId")
-      dependency_artifact = self.add_artifact_if_not_exists(
-          Artifact(group_id, artifact_id))
+      dependency_artifact = self.add_artifact_if_not_exists(Artifact(group_id, artifact_id))
       dependency_artifact.add_usage(root)
+
+
+  def retrieve_Depemndencies_from_pom_document(self, document):
+    elements = document.getElementsByTagName("dependencies")
+    if len(elements) == 0:
+      return list()
+
+    return elements[0].getElementsByTagName("dependency")
 
 
   def read_xml_file(self, file_path: str):
     document = minidom.parse(file_path)
     group_id = self.retrieve_text_value(document, "groupId")
     artifact_id = self.retrieve_text_value(document, "artifactId")
-    root_artifact = self.add_artifact_if_not_exists(
-        Artifact(group_id, artifact_id))
+    root_artifact = self.add_artifact_if_not_exists(Artifact(group_id, artifact_id))
 
-    dependencies = (document.getElementsByTagName("dependencies")[0]
-                    .getElementsByTagName("dependency"))
+    dependencies = self.retrieve_Depemndencies_from_pom_document(document)
     self.process_dependencies(dependencies, root_artifact)

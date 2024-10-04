@@ -1,3 +1,7 @@
+# If you have unique artifact ids, and you want to reduce the output size.
+use_only_artifact_id = True
+
+
 class Artifact:
   """
   Represents maven artifact with group id and artifact id;
@@ -14,6 +18,9 @@ class Artifact:
 
 
   def to_string(self):
+    if use_only_artifact_id:
+      return self.artifact_id
+
     return self.group_id + ":" + self.artifact_id
 
 

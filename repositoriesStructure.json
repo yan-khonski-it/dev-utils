@@ -1,0 +1,23 @@
+[
+  {
+    "directory": "ByteByteGoHq",
+    "repositories": [
+      "https://github.com/ByteByteGoHq/system-design-101",
+      "https://github.com/ByteByteGoHq/ml-bytebytego"
+    ]
+  },
+  {
+    "directory": "yangshun",
+    "repositories": [
+      "https://github.com/yangshun/front-end-interview-handbook",
+      "https://github.com/yangshun/tech-interview-handbook"
+    ]
+  },
+  {
+    "directory": "yan-khonski-it",
+    "repositories": [
+      "https://github.com/yan-khonski-it/pmd-java-14",
+      "https://github.com/yan-khonski-it/java-17-pmd"
+    ]
+  }
+]

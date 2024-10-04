@@ -1,39 +1,34 @@
 import subprocess
 import time
-from core.directory_with_repositories import DirectoryWithRepositories
+import json
 
 
-# Set these directories with repositories,
-# so for each directory the script will clone all repositories in it
-baseDirectory = "C:\\Dev\\workspaces\\test-directory"
-file_path_Separator = "\\"
-
-# These repositories are just an example. Feel free to choose yours.
-directories_to_clone_repositories = [
-  DirectoryWithRepositories("ByteByteGoHq", [
-    "https://github.com/ByteByteGoHq/system-design-101",
-    "https://github.com/ByteByteGoHq/ml-bytebytego"
-  ]),
-
-  DirectoryWithRepositories("yangshun", [
-    "https://github.com/yangshun/front-end-interview-handbook",
-    "https://github.com/yangshun/tech-interview-handbook"
-  ]),
-
-  DirectoryWithRepositories("yan-khonski-it", [
-    "https://github.com/yan-khonski-it/pmd-java-14",
-    "https://github.com/yan-khonski-it/java-17-pmd"
-  ])
-]
+base_directory = "C:\\Dev\\workspaces\\tools"
+file_path_separator = "\\"
 
 
-def build_repository_path(repository_directory, repository_name):
-  return (baseDirectory + file_path_Separator +
-          repository_directory + file_path_Separator + repository_name)
+def parse_input(filename: str) -> list:
+  content = ""
+  with open(filename, "r") as input_file:
+    content = input_file.read()
+
+  return json.loads(content)
 
 
-def clone_repository(repository_directory, repository_url):
+def build_repository_path(repository_directory: str, repository_name: str) -> str:
+  return base_directory + file_path_separator +repository_directory + file_path_separator + repository_name
+
+
+def retrieve_repository_name(repository_url: str) -> str:
   repository_name = repository_url.split("/")[-1]
+  if repository_name.endswith(".git"):
+    repository_name = repository_name[:-4]
+
+  return repository_name
+
+
+def clone_repository(repository_directory: str, repository_url: str) -> None:
+  repository_name = retrieve_repository_name(repository_url)
   repository_path = build_repository_path(repository_directory, repository_name)
   print("Cloning repository: [" + repository_url + "]" +
         " into directory: [" + repository_path + "] .")
@@ -42,24 +37,24 @@ def clone_repository(repository_directory, repository_url):
     "git", "clone", repository_url, repository_path
   ],
       stdout=subprocess.PIPE,
-      cwd=baseDirectory)
+      cwd=base_directory)
   output = process.communicate()[0]
   print(output)
 
 
-def clone_repositories(directory_with_repositories):
-  repositories_directory = directory_with_repositories.repositories_directory
-  print("Cloning repositories to directory: [" + repositories_directory + "] .")
-  for url in directory_with_repositories.urls:
-    clone_repository(repositories_directory, url)
+def clone_repositories(directory: str, repositories: list) -> None:
+  print("Cloning repositories to directory: [" + directory + "] .")
+  for url in repositories:
+    clone_repository(directory, url)
 
 
 def main():
-  print("Cloning repositories into base directory: [" + baseDirectory + "] .")
+  print("Cloning repositories into base directory: [" + base_directory + "] .")
   start = time.time()
 
-  for directory in directories_to_clone_repositories:
-    clone_repositories(directory)
+  directories_list = parse_input("./repositoriesStructure.json")
+  for directory in directories_list:
+    clone_repositories(directory["directory"], directory["repositories"])
 
   end = time.time()
   total_time = end - start

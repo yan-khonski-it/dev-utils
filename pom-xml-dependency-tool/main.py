@@ -2,6 +2,7 @@ import os
 import time
 from core.pom_xml_reader import PomXmlReader
 
+
 file_path_Separator = "\\"
 base_directory = "C:\\Dev\\workspaces\\test-directory"
 intput = "org.apache.logging.log4j:log4j-core"
@@ -23,10 +24,8 @@ def walk_directory(directory):
     # Exclude .git and .idea, and other non code directories
     if os.path.isdir(child_path) and not child.startswith("."):
       walk_directory(child_path)
-    else:
-      if child == "pom.xml":
-        append_artifacts_from_pom_xml(child_path)
-        break
+    elif os.path.isfile(child_path) and child == "pom.xml":
+      append_artifacts_from_pom_xml(child_path)
 
 
 def search_artifact(artifact_name: str):
@@ -55,9 +54,10 @@ def main():
   search_artifact(intput)
 
   # Remove the first element, because it is the searched artifact itself
-  found_dependencies.pop(0)
+  if len(found_dependencies) > 0:
+    found_dependencies.pop(0)
 
-  print("\n\nFound dependencies:\n")
+  print("\n\nFound modules / projects depending on [" + intput + "]:\n")
   print(found_dependencies)
 
   end = time.time()
