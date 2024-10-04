@@ -28,11 +28,12 @@ https://github.com/yan-khonski-it/dev-utils/tree/master/pom-xml-dependency-tool
 #### Windows
 https://docs.python.org/3/library/venv.html
 
-Install virtual environment if not installed
+Install virtual environment tool if not installed
 ```commandline
 pip install virtualenv
 ```
 
+Create a new virtual environment
 ```commandline
 python -m venv virtual_environment 
 ```
