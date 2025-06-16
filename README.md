@@ -22,6 +22,9 @@ https://github.com/yan-khonski-it/dev-utils/tree/master/repository-update-tool
 ## pom xml dependency tool
 https://github.com/yan-khonski-it/dev-utils/tree/master/pom-xml-dependency-tool
 
+## code-analyser
+https://github.com/yan-khonski-it/dev-utils/tree/master/code-analyser
+
 
 ## Installation
 ### Create a virtual environment in the directory of the project
