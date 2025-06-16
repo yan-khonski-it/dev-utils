@@ -25,6 +25,9 @@ https://github.com/yan-khonski-it/dev-utils/tree/master/pom-xml-dependency-tool
 ## code-analyser
 https://github.com/yan-khonski-it/dev-utils/tree/master/code-analyser
 
+## mac-utils
+https://github.com/yan-khonski-it/dev-utils/tree/master/mac-utils
+
 
 ## Installation
 ### Create a virtual environment in the directory of the project
