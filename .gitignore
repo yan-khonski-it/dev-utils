@@ -2,3 +2,6 @@
 /virtual_environment
 __pycache__
 .DS_Store
+/target
+**/target
+**/*.iml

@@ -2,7 +2,11 @@
 Here are some tools, I use to automate my work with repositories / code.
 
 ## Prerequisites
-python 3
+- python 3
+
+For code analyser
+- java 21
+- maven 3
 
 ## Clone the repo
 ```shell
