@@ -66,12 +66,15 @@ public class MtaAnalyser {
     }
 
     if (processedArtifacts.isEmpty()) {
-      System.out.println("No artifacts found");
+      System.out.println("No artifacts with different versions found");
     } else {
+      System.out.println("Found artifacts with different versions:");
       for (Artifact artifact : processedArtifacts) {
         System.out.println(artifact.toString());
       }
     }
+
+    System.out.println();
 
     if (pairs.isEmpty()) {
       System.out.println("No similar artifacts pairs found");
