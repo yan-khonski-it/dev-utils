@@ -25,6 +25,9 @@ https://github.com/yan-khonski-it/dev-utils/tree/master/pom-xml-dependency-tool
 ## code-analyser
 https://github.com/yan-khonski-it/dev-utils/tree/master/code-analyser
 
+## maven-tree-analyser
+https://github.com/yan-khonski-it/dev-utils/tree/master/maven-tree-analyser
+
 ## mac-utils
 https://github.com/yan-khonski-it/dev-utils/tree/master/mac-utils
 
