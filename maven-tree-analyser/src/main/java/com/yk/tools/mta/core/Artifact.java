@@ -1,13 +1,13 @@
 package com.yk.tools.mta.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Artifact {
 
-  private String groupId;
-  private String artifactId;
-  private List<String> versions = new ArrayList<String>();
+  private final String groupId;
+  private final String artifactId;
+  private final Set<String> versions = new HashSet<>();
 
   public Artifact(String groupId, String artifactId) {
     this.groupId = groupId;
@@ -26,7 +26,7 @@ public class Artifact {
     return artifactId;
   }
 
-  public List<String> getVersions() {
+  public Set<String> getVersions() {
     return versions;
   }
 
@@ -37,8 +37,7 @@ public class Artifact {
   @Override
   public String toString() {
     return "Artifact{" +
-        "groupId='" + groupId + '\'' +
-        ", artifactId='" + artifactId + '\'' +
+        "coordinates='" + groupId + ":" +  artifactId + '\'' +
         ", versions=" + versionsToString() +
         '}';
   }

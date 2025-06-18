@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +20,19 @@ public class MtaAnalyser {
   private static final Pattern PATTERN = Pattern.compile(
       "(?:\\[[A-Z]+]\\s*)?[|\\\\\\s\\-+]*([\\w.\\-]+):([\\w.\\-]+):([\\w.\\-]+):([\\w.\\-]+)(?::([\\w.\\-]+))?");
 
+  private final ArtifactSimilarity artifactSimilarity = new ArtifactSimilarity();
+
   public void run(File input) {
     List<Artifact> artifacts = processLines(input);
-    printResults(artifacts);
+    List<ArtifactPair> pairs = findSimilarArtifactsPairs(artifacts);
+    printResults(artifacts, pairs);
   }
 
   private List<Artifact> processLines(File input) {
     Map<String, Artifact> artifacts = new HashMap<>();
 
     try (InputStream is = new FileInputStream(input);
-    BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
       String line;
       while ((line = br.readLine()) != null) {
         Matcher matcher = PATTERN.matcher(line);
@@ -55,10 +56,10 @@ public class MtaAnalyser {
     return artifactList;
   }
 
-  private void printResults(List<Artifact> artifacts) {
+  private void printResults(List<Artifact> artifacts, List<ArtifactPair> pairs) {
     List<Artifact> processedArtifacts = new ArrayList<>(artifacts.size());
 
-    for  (Artifact artifact : artifacts) {
+    for (Artifact artifact : artifacts) {
       if (artifact.getVersionsSize() > 1) {
         processedArtifacts.add(artifact);
       }
@@ -67,9 +68,44 @@ public class MtaAnalyser {
     if (processedArtifacts.isEmpty()) {
       System.out.println("No artifacts found");
     } else {
-      for  (Artifact artifact : processedArtifacts) {
+      for (Artifact artifact : processedArtifacts) {
         System.out.println(artifact.toString());
       }
     }
+
+    if (pairs.isEmpty()) {
+      System.out.println("No similar artifacts pairs found");
+    } else {
+      System.out.println("Found similar artifacts pairs: ");
+      for (ArtifactPair pair : pairs) {
+        System.out.println(pair.getArtifact1().toString() + " -> " + pair.getArtifact2().toString());
+      }
+    }
+  }
+
+  private List<ArtifactPair> findSimilarArtifactsPairs(List<Artifact> artifacts) {
+    Map<String, List<Artifact>> artifactsMap = new HashMap<>();
+    for (Artifact artifact : artifacts) {
+      artifactsMap.computeIfAbsent(artifact.getGroupId(), k -> new ArrayList<>()).add(artifact);
+    }
+
+    List<ArtifactPair> pairs = new ArrayList<>();
+
+    for (Map.Entry<String, List<Artifact>> entry : artifactsMap.entrySet()) {
+      List<Artifact> artifactsValue = entry.getValue();
+      if (artifactsValue.size() < 2) {
+        continue;
+      }
+
+      for (int i = 0; i < artifactsValue.size() - 1; i++) {
+        Artifact a1 = artifactsValue.get(i);
+        Artifact a2 = artifactsValue.get(i + 1);
+        if (artifactSimilarity.similar(a1, a2)) {
+          pairs.add(new ArtifactPair(a1, a2));
+        }
+      }
+    }
+
+    return pairs;
   }
 }
