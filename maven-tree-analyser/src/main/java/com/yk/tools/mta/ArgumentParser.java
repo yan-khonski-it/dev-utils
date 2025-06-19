@@ -20,11 +20,6 @@ public class ArgumentParser {
   public void parse(String[] args) {
     if (args.length == ARG_SIZE) {
       parseMtaArguments(args);
-    } else if (args == null || args.length == 0) {
-      args = new String[ARG_SIZE];
-      args[0] = "-input";
-      args[1] = "'C:\\Dev\\tree-result.txt'";
-      parseMtaArguments(args);
     } else {
       throw new IllegalArgumentException("Invalid arguments provided. Cannot run tree analyser.");
     }

@@ -26,10 +26,6 @@ public class Artifact {
     return artifactId;
   }
 
-  public Set<String> getVersions() {
-    return versions;
-  }
-
   public int getVersionsSize() {
     return versions.size();
   }
@@ -37,12 +33,12 @@ public class Artifact {
   @Override
   public String toString() {
     return "Artifact{" +
-        "coordinates='" + groupId + ":" +  artifactId + '\'' +
+        "coordinates='" + groupId + ":" + artifactId + '\'' +
         ", versions=" + versionsToString() +
         '}';
   }
 
-  private String versionsToString() {
+  public String versionsToString() {
     return String.join(", ", versions);
   }
 }

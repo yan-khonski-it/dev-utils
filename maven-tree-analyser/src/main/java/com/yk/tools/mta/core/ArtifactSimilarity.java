@@ -20,9 +20,31 @@ public class ArtifactSimilarity {
     return artifactId1.equals(artifactId2);
   }
 
+  /**
+   * Strips off digits and a pyphen.
+   */
   private String normalize(String artifactId) {
-    // Remove trailing -<digit> or <digit>
-    return artifactId.replaceAll("(-?\\d{1,3})$", "");
+    if (artifactId == null || artifactId.isBlank() || artifactId.length() < 2) {
+      return artifactId;
+    }
+
+    int index = -1;
+    for (int i = artifactId.length() - 1; i >= 0; i--) {
+      char c = artifactId.charAt(i);
+      if (Character.isDigit(c)) {
+        continue;
+      } else if (c == '-') {
+        index = i;
+        break;
+      } else if (c == '.') {
+        return artifactId;
+      } else {
+        index = i + 1;
+        break;
+      }
+    }
+
+    return index > 0 ? artifactId.substring(0, index) : artifactId;
   }
 
 }

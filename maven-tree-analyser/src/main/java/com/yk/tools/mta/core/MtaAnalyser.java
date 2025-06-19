@@ -13,77 +13,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MtaAnalyser {
 
-  private static final Pattern PATTERN = Pattern.compile(
-      "(?:\\[[A-Z]+]\\s*)?[|\\\\\\s\\-+]*([\\w.\\-]+):([\\w.\\-]+):([\\w.\\-]+):([\\w.\\-]+)(?::([\\w.\\-]+))?");
-
+  private final ArtifactsReader artifactsReader = new  ArtifactsReader();
   private final ArtifactSimilarity artifactSimilarity = new ArtifactSimilarity();
+  private final ArtifactPrinter artifactPrinter = new  ArtifactPrinter();
 
   public void run(File input) {
-    List<Artifact> artifacts = processLines(input);
+    List<Artifact> artifacts = artifactsReader.read(input);
     List<ArtifactPair> pairs = findSimilarArtifactsPairs(artifacts);
-    printResults(artifacts, pairs);
-  }
-
-  private List<Artifact> processLines(File input) {
-    Map<String, Artifact> artifacts = new HashMap<>();
-
-    try (InputStream is = new FileInputStream(input);
-        BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        Matcher matcher = PATTERN.matcher(line);
-        if (!matcher.find()) {
-          continue;
-        }
-
-        String groupId = matcher.group(1);
-        String artifactId = matcher.group(2);
-        String version = matcher.group(4);
-
-        String key = groupId + ":" + artifactId;
-        artifacts.computeIfAbsent(key, k -> new Artifact(groupId, artifactId)).addVersion(version);
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(format("Failed to read lines from file: %s", input.getAbsoluteFile()), e);
-    }
-
-    List<Artifact> artifactList = new ArrayList<>(artifacts.values());
-    artifactList.sort(new ArtifactComparator());
-    return artifactList;
-  }
-
-  private void printResults(List<Artifact> artifacts, List<ArtifactPair> pairs) {
-    List<Artifact> processedArtifacts = new ArrayList<>(artifacts.size());
-
-    for (Artifact artifact : artifacts) {
-      if (artifact.getVersionsSize() > 1) {
-        processedArtifacts.add(artifact);
-      }
-    }
-
-    if (processedArtifacts.isEmpty()) {
-      System.out.println("No artifacts with different versions found");
-    } else {
-      System.out.println("Found artifacts with different versions:");
-      for (Artifact artifact : processedArtifacts) {
-        System.out.println(artifact.toString());
-      }
-    }
-
-    System.out.println();
-
-    if (pairs.isEmpty()) {
-      System.out.println("No similar artifacts pairs found");
-    } else {
-      System.out.println("Found similar artifacts pairs: ");
-      for (ArtifactPair pair : pairs) {
-        System.out.println(pair.getArtifact1().toString() + " -> " + pair.getArtifact2().toString());
-      }
-    }
+    artifactPrinter.printArtifacts(artifacts);
+    artifactPrinter.printArtifactPairs(pairs);
   }
 
   private List<ArtifactPair> findSimilarArtifactsPairs(List<Artifact> artifacts) {

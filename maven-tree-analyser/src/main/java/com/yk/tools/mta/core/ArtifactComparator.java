@@ -4,7 +4,9 @@ import java.util.Comparator;
 
 /**
  * Compares two {@link Artifact} objects.
+ * <p>
  * First we want artifacts that have the most versions (sort by versions in descending order).
+ * <p>
  * Then we want artifacts sorted by group id and artifact id in ascending order.
  */
 public class ArtifactComparator implements Comparator<Artifact> {
