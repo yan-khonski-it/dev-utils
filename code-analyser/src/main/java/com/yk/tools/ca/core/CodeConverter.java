@@ -29,6 +29,11 @@ public class CodeConverter {
       System.err.printf("Directory %s does not exist or is not a directory.%n", directory.getAbsoluteFile());
     }
 
+    if (Filter.isDirectoryExcluded(directory.getName())) {
+      System.out.println("Directory excluded: " + directory.getAbsoluteFile());
+      return;
+    }
+
     Map<String, List<File>> packageFilesMap = new HashMap<>();
     collectFilesByPackage(directory, directory, packageFilesMap);
 
@@ -42,6 +47,11 @@ public class CodeConverter {
       writer.newLine();
 
       for (File file : files) {
+        if (Filter.isFileExcluded(file.getName())) {
+          System.out.println("File excluded: " + file.getAbsoluteFile());
+          continue;
+        }
+
         writer.write("## " + file.getName());
         writer.newLine();
         writeFileContent(file, writer);
@@ -51,6 +61,9 @@ public class CodeConverter {
   }
 
   private void collectFilesByPackage(File rootDirectory, File currentDirectory, Map<String, List<File>> packageFilesMap) {
+    if (Filter.isDirectoryExcluded(currentDirectory.getName())) {
+      System.out.println("[collectFilesByPackage] Directory excluded: " + currentDirectory.getAbsoluteFile());
+    }
     File[] files = currentDirectory.listFiles();
     if (files == null) {
       return;
@@ -60,6 +73,11 @@ public class CodeConverter {
       if (file.isDirectory()) {
         collectFilesByPackage(rootDirectory, file, packageFilesMap);
       } else if (file.isFile()) {
+        if (Filter.isFileExcluded(file.getName())) {
+          System.out.println("[collectFilesByPackage] File excluded: " + file.getAbsoluteFile());
+          continue;
+        }
+
         String packageName = rootDirectory.toURI().relativize(file.getParentFile().toURI()).getPath();
         if (packageName.isBlank()) {
           packageName = "java";

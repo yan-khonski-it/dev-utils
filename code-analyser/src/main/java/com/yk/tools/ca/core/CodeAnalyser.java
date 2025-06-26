@@ -16,6 +16,11 @@ public class CodeAnalyser {
 
   private CodeAnalysisResult analyseDirectory(File directory) {
     CodeAnalysisResult totalResult = new CodeAnalysisResult();
+    if (Filter.isDirectoryExcluded(directory.getName())) {
+      System.out.println("Directory excluded: " + directory.getAbsoluteFile());
+      return totalResult;
+    }
+
     totalResult.incrementDirectoryCount();
 
     File[] files = directory.listFiles();
@@ -25,6 +30,11 @@ public class CodeAnalyser {
 
     for (File file : files) {
       if (file.isFile()) {
+        if (Filter.isFileExcluded(file.getName())) {
+          System.out.println("File excluded: " + file.getAbsoluteFile());
+          continue;
+        }
+
         CodeAnalysisResult fileResult = analyseFile(file);
         totalResult.add(fileResult);
       } else if (file.isDirectory()) {
