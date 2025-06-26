@@ -7,7 +7,7 @@ import java.util.Set;
  */
 public class Filter {
 
-  private static final Set<String> DIRECTORIES = Set.of(
+  private static final Set<String> EXCLUDED_DIRECTORIES = Set.of(
       ".idea",
       ".git",
       "test",
@@ -15,24 +15,57 @@ public class Filter {
       ".DS_Store",
       "__pycache__",
       "target",
-      "virtual_environment"
+      "virtual_environment",
+      ".settings",
+      "documents",
+      ".github",
+      ".circleci"
       // add more, such as integration-tests, ui-tests,etc.
   );
 
-  private static final Set<String> FILES = Set.of(
+  private static final Set<String> EXCLUDED_FILES = Set.of(
       ".gitignore",
       "README.md",
       "LICENSE",
       "CODEOWNERS",
       ".flattened-pom.xml",
-      "Jenkinsfile"
+      "Jenkinsfile",
+      "CHANGES",
+      "codecov.yml",
+      "install-jdk.sh",
+      "KEYS.txt",
+      "publish.sh",
+      "osx-toolchains.xml"
+  );
+
+  private static final Set<String> EXCLUDED_FILENAME_EXTENSIONS = Set.of(
+      "jpg",
+      "png"
   );
 
   public static boolean isFileExcluded(String fileName) {
-    return FILES.contains(fileName);
+    if (EXCLUDED_FILES.contains(fileName)) {
+      return true;
+    }
+
+    String filenameExtension = getFilenameExtension(fileName);
+    if (filenameExtension.isBlank()) {
+      return false;
+    }
+
+    return EXCLUDED_FILENAME_EXTENSIONS.contains(filenameExtension);
   }
 
   public static boolean isDirectoryExcluded(String directory) {
-    return DIRECTORIES.contains(directory);
+    return EXCLUDED_DIRECTORIES.contains(directory);
+  }
+
+  private static String getFilenameExtension(String fileName) {
+    int index = fileName.lastIndexOf('.');
+    if (index == -1) {
+      return "";
+    }
+
+    return fileName.substring(index + 1);
   }
 }
