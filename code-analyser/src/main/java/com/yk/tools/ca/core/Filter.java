@@ -25,22 +25,32 @@ public class Filter {
 
   private static final Set<String> EXCLUDED_FILES = Set.of(
       ".gitignore",
+      ".gitattributes",
       "README.md",
       "LICENSE",
       "CODEOWNERS",
+      "CHANGES",
+      "CHANGELOG",
       ".flattened-pom.xml",
       "Jenkinsfile",
-      "CHANGES",
       "codecov.yml",
       "install-jdk.sh",
       "KEYS.txt",
       "publish.sh",
-      "osx-toolchains.xml"
+      "osx-toolchains.xml",
+      ".DS_Store"
   );
 
   private static final Set<String> EXCLUDED_FILENAME_EXTENSIONS = Set.of(
       "jpg",
-      "png"
+      "png",
+      "jar",
+      "data",
+      "dat",
+      "bin",
+      "keystore",
+      "key",
+      "crt"
   );
 
   public static boolean isFileExcluded(String fileName) {
