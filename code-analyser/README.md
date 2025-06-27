@@ -59,3 +59,7 @@ I have java code in the format as single file
 
 Could you please, review this code
 ```
+
+Example using MCP client for code analysis and MCP server for code access:
+
+https://github.com/yan-khonski-it/ai-labs/tree/main/mcp-example#mcp-example
